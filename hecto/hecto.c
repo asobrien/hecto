@@ -50,12 +50,9 @@
 #define FILE_OUTSIDE_SCOPE 12
 
 /* All allowed paths are defined here */
-#define NUM_ALLOWED_PATHS 4
+#define NUM_ALLOWED_PATHS 1
 char *ALLOWED_PATHS[NUM_ALLOWED_PATHS] = {
-    "/Users/aobrien/Code/*",
-    "/tmp/*",
-    "/private/tmp/*",
-    "/Users/aobrien/tmp/*/foo/*"
+    "/etc/nginx/sites-available/*"
 };
 
 /* Validate argv[1] from kilo call */
