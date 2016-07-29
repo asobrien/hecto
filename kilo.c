@@ -50,6 +50,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <fcntl.h>
+#include "hecto/hecto.h"
 
 /* Syntax highlight types */
 #define HL_NORMAL 0
@@ -1258,6 +1259,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
+    hecto(argv[1]); /* hecto < kilo */
     initEditor();
     editorSelectSyntaxHighlight(argv[1]);
     editorOpen(argv[1]);
