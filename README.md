@@ -39,7 +39,7 @@ Keys:
 
 Customization
 -------------
-Currently two restrictions on what files can be edited as permitted.
+Currently two restrictions on what files can be edited are permitted:
 
     1) The location where files are present. These are matched against 
         a pattern (see `fnmatch`). Multiple paths can be specified. These
