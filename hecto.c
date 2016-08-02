@@ -34,25 +34,31 @@
 
 #define HECTO_VERSION "0.0.1"
 
+#define _BSD_SOURCE
+#define _GNU_SOURCE
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <sys/stat.h>
 #include <fnmatch.h>
+#ifndef PATH_MAX
+#include <linux/limits.h>
+#endif
 
 #define FILE_MUST_EXIST 1
 
-/* Hecto Exit Codes:
- * 11 -- File not found
- * 12 -- File outside scope */
-#define FILE_NOT_EXIST 11
-#define FILE_OUTSIDE_SCOPE 12
+/* Hecto exit codes */
+#define FILE_OUTSIDE_SCOPE 11
+#define FILE_NOT_EXIST 12
+
 
 /* All allowed paths are defined here */
-#define NUM_ALLOWED_PATHS 1
+#define NUM_ALLOWED_PATHS 2
 char *ALLOWED_PATHS[NUM_ALLOWED_PATHS] = {
-    "/etc/nginx/sites-available/*"
+    "/etc/nginx/sites-available/*",
+    "/tmp/*"
 };
 
 /* Validate argv[1] from kilo call */
@@ -61,15 +67,6 @@ void hecto(char* fpath) {
     char abspath[PATH_MAX];
 
     realpath(fpath, abspath);
-
-    /* make sure file exists, son! Or bail */
-    if (FILE_MUST_EXIST) {
-        struct stat buffer;
-        if (stat(abspath, &buffer) != 0) {
-            fprintf(stderr,"File does not exist: %s\n", abspath);
-            exit(FILE_NOT_EXIST);
-        }
-    }
 
     /* Check file matches ALLOWED_PATH */
     for (int i = 0; i < NUM_ALLOWED_PATHS; i++) {
@@ -80,7 +77,17 @@ void hecto(char* fpath) {
 
     /* bail if file doesn't match ALLOWED_PATHS */
     if (!(matches)) {
-        fprintf(stderr, "File outside scope: %s\n", abspath);
+        fprintf(stderr, "File outside permitted scope: %s\n", abspath);
         exit(FILE_OUTSIDE_SCOPE);
     }
+
+        /* make sure file exists, son! Or bail */
+    if (FILE_MUST_EXIST) {
+        struct stat buffer;
+        if (stat(abspath, &buffer) != 0) {
+            fprintf(stderr,"File does not exist: %s\n", abspath);
+            exit(FILE_NOT_EXIST);
+        }
+    }
+
 }

@@ -1,7 +1,30 @@
-Kilo
-===
+Hecto = Kilo/10
+===============
 
-Kilo is a small text editor in less than 1K lines of code (counted with cloc).
+Hecto is Kilo with the brakes on!
+
+Hecto is small text editor derived from [Kilo](linkit). It is functionally
+equivalent to Kilo (it is Kilo!) however it adds some checks to limit what
+files may be edited. 
+
+If Kilo is alpha, and this too is alpha, the product of their parts is 
+pre-alpha. Or, as Herman Melville puts it:
+
+> Finally: It was stated at the outset, that this system would not be here, 
+> and at once, perfected. You cannot but plainly see that I have kept 
+> my word. But I now leave my ... System standing thus unfinished, even 
+> as the great Cathedral of Cologne was left, with the crane still standing 
+> upon the top of the uncompleted tower. For small erections may be finished 
+> by their first architects; grand ones, true ones, ever leave the 
+> copestone to posterity. God keep me from ever completing anything. 
+> This whole book is but a draught – nay, but the draught of a draught. 
+> Oh, Time, Strength, Cash, and Patience!
+
+Buyer beware!
+
+
+Usage
+-----
 
 A screencast is available here: https://asciinema.org/a/90r2i9bq8po03nazhqtsifksb
 
@@ -13,14 +36,40 @@ Keys:
     CTRL-Q: Quit
     CTRL-F: Find string in file (ESC to exit search, arrows to navigate)
 
-Kilo does not depend on any library (not even curses). It uses fairly standard
-VT100 (and similar terminals) escape sequences. The project is in alpha
-stage and was written in just a few hours taking code from my other two
-projects, load81 and linenoise.
 
-People are encouraged to use it as a starting point to write other editors
-or command line interfaces that are more advanced than the usual REPL
-style CLI.
+Customization
+-------------
+Currently two restrictions on what files can be edited as permitted.
 
-Kilo was written by Salvatore Sanfilippo aka antirez and is released
-under the BSD 2 clause license.
+    1) The location where files are present. These are matched against 
+        a pattern (see `fnmatch`). Multiple paths can be specified. These
+        can be specified in `hecto.c` in the `ALLOWED_PATHS` array. Be sure
+        to update `#define NUM_ALLOWED_PATHS 1` to match the num of paths
+        specified.
+
+    2) Whether or not the file must already exists. This can be toggled 
+        in `hecto.c` by the `#define FILE_MUST_EXIST 1` statement.
+
+
+Build
+-----
+Basic build tools are all that's required. On Ubuntu, `apt-get install 
+build-essential` should get you all the tooling you need to build a 
+binary.
+
+Build it by running `make`.
+
+
+Miscellaneous
+-------------
+You could use hecto to allow all users on a system access to edit files
+in the allowed paths by elevating the capabilities of `hecto` using linux
+capabilities. For instance, to bypass all ownership permission checks, you 
+could set the following on the binary:
+
+```
+sudo setcap -v cap_dac_override+ep /usr/local/bin/hecto
+```
+
+Note that hecto will still be restricted to editing files as defined by
+`FILE_MUST_EXIST` and `ALLOWED_PATHS` options in `hecto.c`. :boom:

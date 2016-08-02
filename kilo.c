@@ -50,7 +50,8 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <fcntl.h>
-#include "hecto/hecto.h"
+#include <time.h>
+#include "hecto.h"
 
 /* Syntax highlight types */
 #define HL_NORMAL 0
