@@ -3,7 +3,7 @@ Hecto = Kilo/10
 
 Hecto is Kilo with the brakes on!
 
-Hecto is small text editor derived from [Kilo](linkit). It is functionally
+Hecto is small text editor derived from [Kilo](https://github.com/antirez/kilo). It is functionally
 equivalent to Kilo (it is Kilo!) however it adds some checks to limit what
 files may be edited. 
 
@@ -73,3 +73,8 @@ sudo setcap -v cap_dac_override+ep /usr/local/bin/hecto
 
 Note that hecto will still be restricted to editing files as defined by
 `FILE_MUST_EXIST` and `ALLOWED_PATHS` options in `hecto.c`. :boom:
+
+Credits
+-------
+* 99%+ of this comes straight from antirez's [kilo](https://github.com/antirez/kilo) project.
+    Much obliged!
